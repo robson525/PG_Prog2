@@ -37,6 +37,16 @@
                         <p:column headerText="Tipo">
                             <h:outputText value="#{ocorrencia.tipoOcorrencia.nome}" />
                         </p:column>
+                        
+                        <p:column headerText="Usuario" styleClass="hidden">
+                            <h:outputText value="#{ocorrencia.usuario.nome}" />
+                        </p:column>
+                        <p:column headerText="Email" styleClass="hidden">
+                            <h:outputText value="#{ocorrencia.usuario.email}" />
+                        </p:column>
+                        <p:column headerText="Telefone" styleClass="hidden">
+                            <h:outputText value="#{ocorrencia.usuario.telefone}" />
+                        </p:column>
 
                         <p:column headerText="Detalhes">
                             <p:commandLink update=":form:carDetail" oncomplete="PF('ocoDialog').show()" title="Ver Detalhes">
@@ -118,17 +128,10 @@
                                     </p:column>
                                 </p:row>
                                 
-                                <p:row>
-                                    <p:column> <h:outputText value="Tipo de Usuário" /></p:column>
-                                    <p:column>
-                                        <h:outputText value="#{listarOcorrenciaBean.ocorrenciaSelecionada.usuario.toString}" />
-                                    </p:column>
-                                </p:row>
-                                
 <!--                                <p:row>
-                                    <p:column> <h:outputText value="Matricula" /></p:column>
+                                    <p:column> <h:outputText value="Tipo" /></p:column>
                                     <p:column>
-                                        <h:outputText value="#{listarOcorrenciaBean.ocorrenciaSelecionada.usuario}" />
+                                        <h:outputText value="#{listarOcorrenciaBean.tipoUsuario(listarOcorrenciaBean.ocorrenciaSelecionada.usuario.estudanteList.size)}" />
                                     </p:column>
                                 </p:row>-->
 

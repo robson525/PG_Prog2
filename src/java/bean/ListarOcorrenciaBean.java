@@ -6,6 +6,7 @@ import javax.faces.bean.ViewScoped;
 import javax.persistence.Query;
 import modelo.Ocorrencia;
 import modelo.OcorrenciaTipo;
+import modelo.Usuario;
 
 
 
@@ -48,7 +49,18 @@ public class ListarOcorrenciaBean extends BeanGeral {
         this.ocorrenciaSelecionada = ocorrenciaSelecionada;
     }
     
-    
+    public String tipoUsuario(){
+        Usuario usuario = this.ocorrenciaSelecionada.getUsuario();
+        if(usuario.getEstudanteList() != null && usuario.getEstudanteList().size() > 0){
+            return "Estudante";
+        }
+        else if(usuario.getFuncionarioList() != null && usuario.getFuncionarioList().size() > 0){
+            return "Funcionário";
+        }
+        else{
+            return "Outro";
+        }
+    }
     
     
 }

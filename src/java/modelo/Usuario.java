@@ -147,24 +147,13 @@ public class Usuario implements Serializable {
         this.ocorrenciaList = ocorrenciaList;
     }
 
+    
     public Setor getSetor() {
         return setor;
     }
 
     public void setSetor(Setor setor) {
         this.setor = setor;
-    }
-    
-    public String getTipo(){
-        if(this.estudanteList != null && this.estudanteList.size() > 0){
-            return "Estudante";
-        }
-        else if(this.funcionarioList != null && this.funcionarioList.size() > 0){
-            return "Funcionario";
-        }
-        else{
-            return "Outro";
-        }
     }
 
     @Override
@@ -189,8 +178,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return this.getTipo();
-        //return "modelo.Usuario[ id=" + id + " ]";
+        return "modelo.Usuario[ id=" + id + " ]";
     }
     
 }
