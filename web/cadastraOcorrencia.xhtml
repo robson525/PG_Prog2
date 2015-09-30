@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="WEB-INF/template.xhtml">
+        <ui:define name="title">Cadastro de Ocorrência</ui:define>
+
+        <ui:define name="content">
+            <h:body>
+
+                <h:form id="formCadastro">
+
+                    <p:panelGrid style="width: 90%; margin: auto;">
+                        <p:row>
+                            <p:column colspan="2" styleClass="ui-widget-header">
+                                Identificação
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>Nome:</p:column>
+                            <p:column >
+                                <p:inputText value="#{ocorrenciaBean.ocorrencia.usuario.nome}" required="true" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>Email:</p:column>
+                            <p:column >
+                                <p:inputText value="#{ocorrenciaBean.ocorrencia.usuario.email}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>Telefone:</p:column>
+                            <p:column>
+                                <p:inputText value="#{ocorrenciaBean.ocorrencia.usuario.telefone}" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>Tipo de Usuario:  </p:column>
+                            <p:column >
+                                <h:selectOneMenu label="tipoUsuario" value="#{ocorrenciaBean.tipoUsuario}" required="true" >
+                                    <f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+                                    <f:selectItems value="#{ocorrenciaBean.tiposUsuairos}" var="tipoUsuario" />
+                                </h:selectOneMenu>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>Matricula: </p:column>
+                            <p:column>
+                                <p:inputText value="#{ocorrenciaBean.matricula}" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column colspan="2" styleClass="ui-widget-header">
+                                Ocorrência
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>Tipo de Ocorrência:  </p:column>
+                            <p:column >
+                                <h:selectOneMenu label="tipoOcorrencia" value="#{ocorrenciaBean.ocorrencia.tipoOcorrencia}" required="true" converter="tipoOcorrenciaConverter">
+                                    <f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+                                    <f:selectItems value="#{ocorrenciaBean.tiposOcorrencia}" var="tipoOcorrencia" itemValue="#{tipoOcorrencia}" itemLabel="#{tipoOcorrencia.nome}" />
+                                </h:selectOneMenu>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>Seu Papel</p:column>
+                            <p:column>
+                                <h:selectOneMenu label="papel" value="#{ocorrenciaBean.ocorrencia.papel}" required="true" converter="papelConverter">
+                                    <f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+                                    <f:selectItems value="#{ocorrenciaBean.papeis}" var="papel" itemValue="#{papel}" itemLabel="#{papel.nome}" />
+                                </h:selectOneMenu>
+                            </p:column>
+                        </p:row>
+                        
+                        
+                        <p:row>
+                            <p:column>Unidade</p:column>
+                            <p:column>
+                                <h:selectOneMenu label="unidade" value="#{ocorrenciaBean.unidade}" required="true" converter="unidadeConverter">
+                                    <f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+                                    <f:selectItems value="#{unidadeBean.unidades}" var="unidade" itemValue="#{unidade}" itemLabel="#{unidade.nome}" />
+                                    <f:ajax render="selectSetor" />
+                                </h:selectOneMenu>
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>
+                            <p:column>
+                                Setor
+                            </p:column>
+                            <p:column>
+                                <h:selectOneMenu id="selectSetor" label="Setor" value="#{ocorrenciaBean.ocorrencia.setor}" required="true" converter="setorConverter">
+                                    <f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+                                    <f:selectItems value="#{ocorrenciaBean.unidade.setorList}" var="setor" itemValue="#{setor}" itemLabel="#{setor.nome}" />
+                                </h:selectOneMenu>
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>
+                            <p:column>
+                                Local
+                            </p:column>
+                            <p:column>
+                                <p:inputText value="#{ocorrenciaBean.ocorrencia.local}" />
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>
+                            <p:column>
+                                Descrição
+                            </p:column>
+                            <p:column>
+                                <p:inputTextarea value="#{ocorrenciaBean.ocorrencia.descricao}" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column colspan="2" style="text-align: center;">
+                                <p:commandButton value="Salvar" action="#{ocorrenciaBean.salvar()}" />
+                            </p:column>
+                        </p:row>
+
+                    </p:panelGrid>
+
+                </h:form>
+
+
+            </h:body>
+        </ui:define>
+    </ui:composition>
+</html>
+
