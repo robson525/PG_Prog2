@@ -40,24 +40,30 @@ public class Ocorrencia implements Serializable {
     @Basic(optional = false)
     @Column(name = "_id")
     private Integer id;
+    
     @Basic(optional = false)
     @NotNull
     @Lob
     @Size(min = 1, max = 65535)
     @Column(name = "DESCRICAO")
     private String descricao;
+    
     @Size(max = 200)
     @Column(name = "LOCAL")
     private String local;
+    
     @JoinColumn(name = "PAPEL", referencedColumnName = "_id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Papel papel;
+    
     @JoinColumn(name = "SETOR", referencedColumnName = "_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Setor setor;
+    
     @JoinColumn(name = "TIPO_OCORRENCIA", referencedColumnName = "_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private OcorrenciaTipo tipoOcorrencia;
+
     @JoinColumn(name = "USUARIO", referencedColumnName = "_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Usuario usuario;

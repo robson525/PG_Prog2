@@ -12,135 +12,171 @@
         <ui:define name="content">
             <h:body>
 
-                <h:form id="form">
-
-                    <p:dataTable var="ocorrencia" value="#{listarOcorrenciaBean.ocorrencias}" rows="10" paginator="true" 
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="6,12,16"
-                                 >
-                        <f:facet name="header">
-                            Ocorrências
-                        </f:facet>
-
-                        <p:column headerText="Unidade">
-                            <h:outputText value="#{ocorrencia.setor.unidade.nome}" />
-                        </p:column>
-
-                        <p:column headerText="Setor">
-                            <h:outputText value="#{ocorrencia.setor.nome}" />
-                        </p:column>
-
-                        <p:column headerText="Local">
-                            <h:outputText value="#{ocorrencia.local}" />
-                        </p:column>
-
-                        <p:column headerText="Tipo">
-                            <h:outputText value="#{ocorrencia.tipoOcorrencia.nome}" />
-                        </p:column>
+                <div>
+                    <h:form id="filtro">
                         
-                        <p:column headerText="Usuario" styleClass="hidden">
-                            <h:outputText value="#{ocorrencia.usuario.nome}" />
-                        </p:column>
-                        <p:column headerText="Email" styleClass="hidden">
-                            <h:outputText value="#{ocorrencia.usuario.email}" />
-                        </p:column>
-                        <p:column headerText="Telefone" styleClass="hidden">
-                            <h:outputText value="#{ocorrencia.usuario.telefone}" />
-                        </p:column>
+                        <p:panelGrid>
+                            <p:row>
+                                <p:column>Unidade</p:column>
+                                <p:column>
+                                    <h:selectOneMenu label="unidade" value="#{listarOcorrenciaBean.unidade}" required="true" converter="unidadeConverter">
+                                        <f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+                                        <f:selectItems value="#{unidadeBean.unidades}" var="unidade" itemValue="#{unidade}" itemLabel="#{unidade.nome}" />
+                                        <f:ajax render="selectSetor" />
+                                    </h:selectOneMenu>
+                                </p:column>
+                            </p:row>
+                            
+                            <p:row>
+                                <p:column>Setor</p:column>                             
+                                <p:column>
+                                    <h:selectOneMenu id="selectSetor" label="setor" value="#{listarOcorrenciaBean.ocorrenciaFiltro.setor}" required="true" converter="setorConverter">
+                                        <f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+                                        <f:selectItems value="#{listarOcorrenciaBean.unidade.setorList}" var="setor" itemValue="#{setor}" itemLabel="#{setor.nome}" />
+                                        <f:ajax render="selectSetor" />
+                                    </h:selectOneMenu>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="2">
+                                    <p:commandButton value="Filtrar" action="#{listarOcorrenciaBean.filtrar}" />
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                        
+                    </h:form>
+                </div>
+                
+                <div>
+                    <h:form id="form">
 
-                        <p:column headerText="Detalhes">
-                            <p:commandLink update=":form:carDetail" oncomplete="PF('ocoDialog').show()" title="Ver Detalhes">
-                                <h:outputText styleClass="ui-icon ui-icon-search" style="margin:0 auto;" />
-                                <f:setPropertyActionListener value="#{ocorrencia}" target="#{listarOcorrenciaBean.ocorrenciaSelecionada}" />
-                            </p:commandLink>
-                        </p:column>
+                        <p:dataTable var="ocorrencia" value="#{listarOcorrenciaBean.ocorrencias}" rows="10" paginator="true" 
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="6,12,16"
+                                     >
+                            <f:facet name="header">
+                                Ocorrências
+                            </f:facet>
 
-                    </p:dataTable>
+                            <p:column headerText="Unidade">
+                                <h:outputText value="#{ocorrencia.setor.unidade.nome}" />
+                            </p:column>
 
-                    <p:dialog header="Detalhes da Ocorrência" widgetVar="ocoDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" style="text-align: center;">
-                        <p:outputPanel id="carDetail" style="text-align:center;">
-                            <p:panelGrid  rendered="#{not empty listarOcorrenciaBean.ocorrenciaSelecionada}" columnClasses="label,value" style="margin: auto;">
-                                <p:row>
-                                    <p:column colspan="2">
-                                        <f:facet name="header">
-                                            
-        <!--                                    <p:graphicImage name="demo/images/car/#{dataGridView.selectedCar.brand}-big.gif"/> -->
-                                        </f:facet>
-                                    </p:column>
-                                </p:row>
-                                <p:row>
-                                    <p:column> <h:outputText value="Unidade:" /> </p:column>
-                                    <p:column>
-                                        <h:outputText value="#{listarOcorrenciaBean.ocorrenciaSelecionada.setor.unidade.nome}" />
-                                    </p:column>
-                                </p:row>
+                            <p:column headerText="Setor">
+                                <h:outputText value="#{ocorrencia.setor.nome}" />
+                            </p:column>
 
-                                <p:row>
-                                    <p:column> <h:outputText value="Setor" /></p:column>
-                                    <p:column>
-                                        <h:outputText value="#{listarOcorrenciaBean.ocorrenciaSelecionada.setor.nome}" />
-                                    </p:column>
-                                </p:row>
+                            <p:column headerText="Local">
+                                <h:outputText value="#{ocorrencia.local}" />
+                            </p:column>
 
-                                <p:row>
-                                    <p:column> <h:outputText value="Local" /></p:column>
-                                    <p:column>
-                                        <h:outputText value="#{listarOcorrenciaBean.ocorrenciaSelecionada.local}"/>
-                                    </p:column>
-                                </p:row>
+                            <p:column headerText="Tipo">
+                                <h:outputText value="#{ocorrencia.tipoOcorrencia.nome}" />
+                            </p:column>
 
-                                <p:row>
-                                    <p:column> <h:outputText value="Tipo" /></p:column>
-                                    <p:column>
-                                        <h:outputText value="#{listarOcorrenciaBean.ocorrenciaSelecionada.tipoOcorrencia.nome}" />
-                                    </p:column>
-                                </p:row>
+                            <p:column headerText="Usuario" styleClass="hidden">
+                                <h:outputText value="#{ocorrencia.usuario.nome}" />
+                            </p:column>
+                            <p:column headerText="Email" styleClass="hidden">
+                                <h:outputText value="#{ocorrencia.usuario.email}" />
+                            </p:column>
+                            <p:column headerText="Telefone" styleClass="hidden">
+                                <h:outputText value="#{ocorrencia.usuario.telefone}" />
+                            </p:column>
 
-                                <p:row>
-                                    <p:column> <h:outputText value="Descrição" /></p:column>
-                                    <p:column>
-                                        <h:outputText value="#{listarOcorrenciaBean.ocorrenciaSelecionada.descricao}" />
-                                    </p:column>
-                                </p:row>
+                            <p:column headerText="Detalhes">
+                                <p:commandLink update=":form:carDetail" oncomplete="PF('ocoDialog').show()" title="Ver Detalhes">
+                                    <h:outputText styleClass="ui-icon ui-icon-search" style="margin:0 auto;" />
+                                    <f:setPropertyActionListener value="#{ocorrencia}" target="#{listarOcorrenciaBean.ocorrenciaSelecionada}" />
+                                </p:commandLink>
+                            </p:column>
 
-                                <p:row>
-                                    <p:column colspan="2">Usuário</p:column>
-                                </p:row>
-                                
-                                <p:row>
-                                    <p:column> <h:outputText value="Nome" /></p:column>
-                                    <p:column>
-                                        <h:outputText value="#{listarOcorrenciaBean.ocorrenciaSelecionada.usuario.nome}" />
-                                    </p:column>
-                                </p:row>
-                                
-                                <p:row>
-                                    <p:column> <h:outputText value="Email" /></p:column>
-                                    <p:column>
-                                        <h:outputText value="#{listarOcorrenciaBean.ocorrenciaSelecionada.usuario.email}" />
-                                    </p:column>
-                                </p:row>
-                                
-                                <p:row>
-                                    <p:column> <h:outputText value="Telefone" /></p:column>
-                                    <p:column>
-                                        <h:outputText value="#{listarOcorrenciaBean.ocorrenciaSelecionada.usuario.telefone}" />
-                                    </p:column>
-                                </p:row>
-                                
-<!--                                <p:row>
-                                    <p:column> <h:outputText value="Tipo" /></p:column>
-                                    <p:column>
-                                        <h:outputText value="#{listarOcorrenciaBean.tipoUsuario(listarOcorrenciaBean.ocorrenciaSelecionada.usuario.estudanteList.size)}" />
-                                    </p:column>
-                                </p:row>-->
+                        </p:dataTable>
 
-                            </p:panelGrid>
-                        </p:outputPanel>
-                    </p:dialog>
+                        <p:dialog header="Detalhes da Ocorrência" widgetVar="ocoDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" style="text-align: center;">
+                            <p:outputPanel id="carDetail" style="text-align:center;">
+                                <p:panelGrid  rendered="#{not empty listarOcorrenciaBean.ocorrenciaSelecionada}" columnClasses="label,value" style="margin: auto;">
+                                    <p:row>
+                                        <p:column colspan="2">
+                                            <f:facet name="header">
 
-                </h:form>
+<!--                                    <p:graphicImage name="demo/images/car/#{dataGridView.selectedCar.brand}-big.gif"/> -->
+                                            </f:facet>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column> <h:outputText value="Unidade:" /> </p:column>
+                                        <p:column>
+                                            <h:outputText value="#{listarOcorrenciaBean.ocorrenciaSelecionada.setor.unidade.nome}" />
+                                        </p:column>
+                                    </p:row>
 
+                                    <p:row>
+                                        <p:column> <h:outputText value="Setor" /></p:column>
+                                        <p:column>
+                                            <h:outputText value="#{listarOcorrenciaBean.ocorrenciaSelecionada.setor.nome}" />
+                                        </p:column>
+                                    </p:row>
+
+                                    <p:row>
+                                        <p:column> <h:outputText value="Local" /></p:column>
+                                        <p:column>
+                                            <h:outputText value="#{listarOcorrenciaBean.ocorrenciaSelecionada.local}"/>
+                                        </p:column>
+                                    </p:row>
+
+                                    <p:row>
+                                        <p:column> <h:outputText value="Tipo" /></p:column>
+                                        <p:column>
+                                            <h:outputText value="#{listarOcorrenciaBean.ocorrenciaSelecionada.tipoOcorrencia.nome}" />
+                                        </p:column>
+                                    </p:row>
+
+                                    <p:row>
+                                        <p:column> <h:outputText value="Descrição" /></p:column>
+                                        <p:column>
+                                            <h:outputText value="#{listarOcorrenciaBean.ocorrenciaSelecionada.descricao}" />
+                                        </p:column>
+                                    </p:row>
+
+                                    <p:row>
+                                        <p:column colspan="2">Usuário</p:column>
+                                    </p:row>
+
+                                    <p:row>
+                                        <p:column> <h:outputText value="Nome" /></p:column>
+                                        <p:column>
+                                            <h:outputText value="#{listarOcorrenciaBean.ocorrenciaSelecionada.usuario.nome}" />
+                                        </p:column>
+                                    </p:row>
+
+                                    <p:row>
+                                        <p:column> <h:outputText value="Email" /></p:column>
+                                        <p:column>
+                                            <h:outputText value="#{listarOcorrenciaBean.ocorrenciaSelecionada.usuario.email}" />
+                                        </p:column>
+                                    </p:row>
+
+                                    <p:row>
+                                        <p:column> <h:outputText value="Telefone" /></p:column>
+                                        <p:column>
+                                            <h:outputText value="#{listarOcorrenciaBean.ocorrenciaSelecionada.usuario.telefone}" />
+                                        </p:column>
+                                    </p:row>
+
+                                    <!--                                <p:row>
+                                                                        <p:column> <h:outputText value="Tipo" /></p:column>
+                                                                        <p:column>
+                                                                            <h:outputText value="#{listarOcorrenciaBean.tipoUsuario(listarOcorrenciaBean.ocorrenciaSelecionada.usuario.estudanteList.size)}" />
+                                                                        </p:column>
+                                                                    </p:row>-->
+
+                                </p:panelGrid>
+                            </p:outputPanel>
+                        </p:dialog>
+
+                    </h:form>
+                </div>
             </h:body>
         </ui:define>
     </ui:composition>

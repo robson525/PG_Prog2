@@ -18,77 +18,72 @@ import modelo.Usuario;
 
 @ManagedBean
 @ViewScoped
-public class OcorrenciaBean extends BeanGeral{
+public class OcorrenciaBean extends BeanGeral {
 
     private Ocorrencia ocorrencia;
-    private List<OcorrenciaTipo> tiposOcorrencia; 
+    private List<OcorrenciaTipo> tiposOcorrencia;
     private List<String> tiposUsuairos;
     private List<Papel> papeis;
     private String tipoUsuario;
     private String matricula;
     private Unidade unidade;
-    
+
     public OcorrenciaBean() {
         super();
         this.ocorrencia = new Ocorrencia();
         this.ocorrencia.setUsuario(new Usuario());
-        
+
         this.carregarTiposUsuairo();
         this.carregarTiposOcorrencia();
         this.carregarPapeis();
-        
+
     }
 
-    
-    
-    public void salvar(){
+    public void salvar() {
         super.atualizaManager();
 
         FacesMessage msg;
         try {
-            
             Object usuario;
-            switch(this.tipoUsuario){
+            switch (this.tipoUsuario) {
                 case "Estudante":
                     usuario = new Estudante(null, this.matricula, this.ocorrencia.getUsuario());
                     break;
-                    
+
                 case "Funcionario":
                     usuario = new Funcionario(null, this.matricula, this.ocorrencia.getUsuario());
                     break;
-                    
+
                 default:
                     usuario = new Outro(null, this.matricula, this.ocorrencia.getUsuario());
             }
-            
-            
+
             super.manager.persist(this.ocorrencia.getUsuario());
             super.manager.persist(usuario);
             super.manager.persist(this.ocorrencia);
-            
-            msg = new FacesMessage("Automovel salvo com Sucesso");
-            
+
             this.ocorrencia = new Ocorrencia();
             this.matricula = null;
             this.unidade = null;
             this.carregarTiposUsuairo();
-            
+
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso", "Automovel salvo com Sucesso");
+
         } catch (Exception ex) {
-            msg = new FacesMessage("Ocorreu um Erro ao Salvar");
+            msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Ocorreu um Erro ao Salvar");
         }
 
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
-    
-    
-    private void carregarTiposUsuairo(){
+
+    private void carregarTiposUsuairo() {
         this.tiposUsuairos = new ArrayList<String>();
         this.tiposUsuairos.add("Estudante");
         this.tiposUsuairos.add("Funcionario");
         this.tiposUsuairos.add("Outro");
     }
-    
-    private void carregarTiposOcorrencia(){
+
+    private void carregarTiposOcorrencia() {
         try {
             Query query = super.manager.createNamedQuery("OcorrenciaTipo.findAll", OcorrenciaTipo.class);
             this.tiposOcorrencia = query.getResultList();
@@ -97,8 +92,8 @@ public class OcorrenciaBean extends BeanGeral{
         }
 
     }
-    
-    private void carregarPapeis(){
+
+    private void carregarPapeis() {
         try {
             Query query = super.manager.createNamedQuery("Papel.findAll", Papel.class);
             this.papeis = query.getResultList();
@@ -107,7 +102,7 @@ public class OcorrenciaBean extends BeanGeral{
         }
 
     }
-    
+
     public Ocorrencia getOcorrencia() {
         return ocorrencia;
     }
@@ -163,7 +158,5 @@ public class OcorrenciaBean extends BeanGeral{
     public void setUnidade(Unidade unidade) {
         this.unidade = unidade;
     }
-    
-    
-    
+
 }
