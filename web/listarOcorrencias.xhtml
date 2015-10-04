@@ -15,31 +15,46 @@
                 <div>
                     <h:form id="filtro">
                         
-                        <p:panelGrid>
+                        <p:panelGrid style="margin: auto; margin-bottom: 50px;">
+                            <f:facet name="header">
+                                <p:row>
+                                    <p:column colspan="2">Filtro</p:column>
+                                </p:row>
+                            </f:facet>
                             <p:row>
-                                <p:column>Unidade</p:column>
+                                <p:column>Unidade</p:column> 
                                 <p:column>
-                                    <h:selectOneMenu label="unidade" value="#{listarOcorrenciaBean.unidade}" required="true" converter="unidadeConverter">
-                                        <f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+                                    <p:selectOneMenu label="unidade" value="#{listarOcorrenciaBean.unidade}" required="false" converter="unidadeConverter" style="width: 200px;">
+                                        <f:selectItem itemLabel="" itemValue="#{null}" />
                                         <f:selectItems value="#{unidadeBean.unidades}" var="unidade" itemValue="#{unidade}" itemLabel="#{unidade.nome}" />
                                         <f:ajax render="selectSetor" />
-                                    </h:selectOneMenu>
+                                    </p:selectOneMenu>
                                 </p:column>
                             </p:row>
                             
                             <p:row>
                                 <p:column>Setor</p:column>                             
                                 <p:column>
-                                    <h:selectOneMenu id="selectSetor" label="setor" value="#{listarOcorrenciaBean.ocorrenciaFiltro.setor}" required="true" converter="setorConverter">
-                                        <f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+                                    <p:selectOneMenu id="selectSetor" label="setor" value="#{listarOcorrenciaBean.ocorrenciaFiltro.setor}" required="false" converter="setorConverter"  style="width: 200px;">
+                                        <f:selectItem itemLabel="" noSelectionOption="true" />
                                         <f:selectItems value="#{listarOcorrenciaBean.unidade.setorList}" var="setor" itemValue="#{setor}" itemLabel="#{setor.nome}" />
-                                        <f:ajax render="selectSetor" />
-                                    </h:selectOneMenu>
+                                    </p:selectOneMenu>
+                                </p:column> 
+                            </p:row>
+                            
+                            <p:row>
+                                <p:column>Tipo de Ocorrência:  </p:column>
+                                <p:column >
+                                    <p:selectOneMenu label="tipoOcorrencia" value="#{listarOcorrenciaBean.ocorrenciaFiltro.tipoOcorrencia}" required="false" converter="tipoOcorrenciaConverter" style="width: 200px;">
+                                        <f:selectItem itemLabel="" noSelectionOption="true" />
+                                        <f:selectItems value="#{listarOcorrenciaBean.tiposOcorrencia}" var="tipoOcorrencia" itemValue="#{tipoOcorrencia}" itemLabel="#{tipoOcorrencia.nome}" />
+                                    </p:selectOneMenu>
                                 </p:column>
                             </p:row>
+                            
                             <p:row>
-                                <p:column colspan="2">
-                                    <p:commandButton value="Filtrar" action="#{listarOcorrenciaBean.filtrar}" />
+                                <p:column colspan="2" style="text-align: center;">
+                                    <p:commandButton value="Filtrar" action="#{listarOcorrenciaBean.filtrar()}" update="@all" />
                                 </p:column>
                             </p:row>
                         </p:panelGrid>
@@ -50,7 +65,7 @@
                 <div>
                     <h:form id="form">
 
-                        <p:dataTable var="ocorrencia" value="#{listarOcorrenciaBean.ocorrencias}" rows="10" paginator="true" 
+                        <p:dataTable id="dtOcorrencias" var="ocorrencia" value="#{listarOcorrenciaBean.ocorrencias}" rows="10" paginator="true" 
                                      paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                      rowsPerPageTemplate="6,12,16"
                                      >

@@ -43,10 +43,10 @@
                             <p:row>
                                 <p:column>Tipo de Usuario:  </p:column>
                                 <p:column >
-                                    <h:selectOneMenu label="tipoUsuario" value="#{ocorrenciaBean.tipoUsuario}" required="true" >
+                                    <p:selectOneMenu label="tipoUsuario" value="#{ocorrenciaBean.tipoUsuario}" required="true" >
                                         <f:selectItem itemLabel="Selecione" noSelectionOption="true" />
                                         <f:selectItems value="#{ocorrenciaBean.tiposUsuairos}" var="tipoUsuario" />
-                                    </h:selectOneMenu>
+                                    </p:selectOneMenu>
                                 </p:column>
                             </p:row>
 
@@ -66,20 +66,20 @@
                             <p:row>
                                 <p:column>Tipo de Ocorrência:  </p:column>
                                 <p:column >
-                                    <h:selectOneMenu label="tipoOcorrencia" value="#{ocorrenciaBean.ocorrencia.tipoOcorrencia}" required="true" converter="tipoOcorrenciaConverter">
+                                    <p:selectOneMenu label="tipoOcorrencia" value="#{ocorrenciaBean.ocorrencia.tipoOcorrencia}" required="true" converter="tipoOcorrenciaConverter">
                                         <f:selectItem itemLabel="Selecione" noSelectionOption="true" />
                                         <f:selectItems value="#{ocorrenciaBean.tiposOcorrencia}" var="tipoOcorrencia" itemValue="#{tipoOcorrencia}" itemLabel="#{tipoOcorrencia.nome}" />
-                                    </h:selectOneMenu>
+                                    </p:selectOneMenu>
                                 </p:column>
                             </p:row>
 
                             <p:row>
                                 <p:column>Seu Papel</p:column>
                                 <p:column>
-                                    <h:selectOneMenu label="papel" value="#{ocorrenciaBean.ocorrencia.papel}" required="true" converter="papelConverter">
+                                    <p:selectOneMenu label="papel" value="#{ocorrenciaBean.ocorrencia.papel}" required="true" converter="papelConverter">
                                         <f:selectItem itemLabel="Selecione" noSelectionOption="true" />
                                         <f:selectItems value="#{ocorrenciaBean.papeis}" var="papel" itemValue="#{papel}" itemLabel="#{papel.nome}" />
-                                    </h:selectOneMenu>
+                                    </p:selectOneMenu>
                                 </p:column>
                             </p:row>
 
@@ -87,11 +87,11 @@
                             <p:row>
                                 <p:column>Unidade</p:column>
                                 <p:column>
-                                    <h:selectOneMenu label="unidade" value="#{ocorrenciaBean.unidade}" required="true" converter="unidadeConverter">
+                                    <p:selectOneMenu label="unidade" value="#{ocorrenciaBean.unidade}" required="true" converter="unidadeConverter">
                                         <f:selectItem itemLabel="Selecione" noSelectionOption="true" />
                                         <f:selectItems value="#{unidadeBean.unidades}" var="unidade" itemValue="#{unidade}" itemLabel="#{unidade.nome}" />
                                         <f:ajax render="selectSetor" />
-                                    </h:selectOneMenu>
+                                    </p:selectOneMenu>
                                 </p:column>
                             </p:row>
 
@@ -100,10 +100,10 @@
                                     Setor
                                 </p:column>
                                 <p:column>
-                                    <h:selectOneMenu id="selectSetor" label="Setor" value="#{ocorrenciaBean.ocorrencia.setor}" required="true" converter="setorConverter">
+                                    <p:selectOneMenu id="selectSetor" label="Setor" value="#{ocorrenciaBean.ocorrencia.setor}" required="true" converter="setorConverter">
                                         <f:selectItem itemLabel="Selecione" noSelectionOption="true" />
                                         <f:selectItems value="#{ocorrenciaBean.unidade.setorList}" var="setor" itemValue="#{setor}" itemLabel="#{setor.nome}" />
-                                    </h:selectOneMenu>
+                                    </p:selectOneMenu>
                                 </p:column>
                             </p:row>
 
@@ -127,7 +127,7 @@
 
                             <p:row>
                                 <p:column colspan="2" style="text-align: center;">
-                                    <p:commandButton value="Salvar" action="#{ocorrenciaBean.salvar()}" />
+                                    <p:commandButton value="Salvar" action="#{ocorrenciaBean.salvar()}" update="@all" />
                                 </p:column>
                             </p:row>
 

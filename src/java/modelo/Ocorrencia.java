@@ -23,16 +23,14 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-/**
- *
- * @author Robson
- */
 @Entity
 @Table(name = "OCORRENCIA")
 @NamedQueries({
     @NamedQuery(name = "Ocorrencia.findAll", query = "SELECT o FROM Ocorrencia o"),
     @NamedQuery(name = "Ocorrencia.findById", query = "SELECT o FROM Ocorrencia o WHERE o.id = :id"),
-    @NamedQuery(name = "Ocorrencia.findByLocal", query = "SELECT o FROM Ocorrencia o WHERE o.local = :local")})
+    @NamedQuery(name = "Ocorrencia.findByLocal", query = "SELECT o FROM Ocorrencia o WHERE o.local = :local"),
+    @NamedQuery(name = "Ocorrencia.realTime", query = "SELECT o FROM Ocorrencia o ORDER BY o.id DESC")
+    })
 public class Ocorrencia implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

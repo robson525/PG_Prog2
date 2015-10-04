@@ -20,11 +20,14 @@ public class ListarOcorrenciaBean extends BeanGeral {
     private Ocorrencia ocorrenciaFiltro;
     private Unidade unidade;
     private List<OcorrenciaTipo> tiposOcorrencia;
-
+    
+    
+    
     public ListarOcorrenciaBean() {
         super();
+        this.ocorrenciaFiltro = new Ocorrencia();
         this.carregarOcorrencias();
-        this.carregaTipoOcorrencia();
+        this.carregarTiposOcorrencia();
     }
 
     private void carregarOcorrencias() {
@@ -36,17 +39,17 @@ public class ListarOcorrenciaBean extends BeanGeral {
         }
     }
 
-    private void carregaTipoOcorrencia() {
+    private void carregarTiposOcorrencia() {
         try {
             Query query = super.manager.createNamedQuery("OcorrenciaTipo.findAll", OcorrenciaTipo.class);
             this.tiposOcorrencia = query.getResultList();
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
         }
+
     }
 
-    public void Filtrar() {
-
+    public void filtrar() {
         super.atualizaManager();
 
         String jpql = "SELECT o FROM Ocorrencia o WHERE 1 = 1 ";
@@ -57,12 +60,12 @@ public class ListarOcorrenciaBean extends BeanGeral {
             jpql += " AND o.setor.id = " + this.ocorrenciaFiltro.getSetor().getId();
         }
 
-        if (this.ocorrenciaFiltro.getTipoOcorrencia() != null && this.ocorrenciaFiltro.getTipoOcorrencia().getId() > 0) {
-            jpql += " AND o.tipoOcorrencia = " + this.ocorrenciaFiltro.getTipoOcorrencia().getId();
-        }
+//        if (this.ocorrenciaFiltro.getTipoOcorrencia() != null && this.ocorrenciaFiltro.getTipoOcorrencia().getId() > 0) {
+//            jpql += " AND o.tipoOcorrencia.id = " + this.ocorrenciaFiltro.getTipoOcorrencia().getId();
+//        }
 
         try {
-            Query query = super.manager.createQuery(jpql, OcorrenciaTipo.class);
+            Query query = super.manager.createQuery(jpql, Ocorrencia.class);
             this.ocorrencias = query.getResultList();
 
         } catch (Exception ex) {
