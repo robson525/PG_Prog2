@@ -7,6 +7,8 @@
 package modelo;
 
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,6 +22,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -32,6 +36,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Ocorrencia.realTime", query = "SELECT o FROM Ocorrencia o ORDER BY o.id DESC")
     })
 public class Ocorrencia implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,6 +54,12 @@ public class Ocorrencia implements Serializable {
     @Size(max = 200)
     @Column(name = "LOCAL")
     private String local;
+    
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "DATA")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date data;
     
     @JoinColumn(name = "PAPEL", referencedColumnName = "_id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -101,6 +112,14 @@ public class Ocorrencia implements Serializable {
     public void setLocal(String local) {
         this.local = local;
     }
+    
+    public Date getData() {
+        return data;
+    }
+
+    public void setData(Date data) {
+        this.data = data;
+    }
 
     public Papel getPapel() {
         return papel;
@@ -133,6 +152,8 @@ public class Ocorrencia implements Serializable {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
+    
+    
 
     @Override
     public int hashCode() {
@@ -158,5 +179,6 @@ public class Ocorrencia implements Serializable {
     public String toString() {
         return "modelo.Ocorrencia[ id=" + id + " ]";
     }
+
     
 }

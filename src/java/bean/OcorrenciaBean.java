@@ -1,6 +1,7 @@
 package bean;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -60,6 +61,7 @@ public class OcorrenciaBean extends BeanGeral {
 
             super.manager.persist(this.ocorrencia.getUsuario());
             super.manager.persist(usuario);
+            this.ocorrencia.setData(new Date());
             super.manager.persist(this.ocorrencia);
 
             this.ocorrencia = new Ocorrencia();
