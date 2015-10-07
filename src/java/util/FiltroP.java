@@ -36,13 +36,7 @@ public class FiltroP implements Filter {
         
     }
     
-    public void doFilter(ServletRequest request, ServletResponse response,
-            FilterChain chain)
-            throws IOException, ServletException {
-        
-        if (debug) {
-            log("FiltroP:doFilter()");
-        }
+    public void doFilter(ServletRequest request, ServletResponse response,FilterChain chain) throws IOException, ServletException {
         
         Throwable problem = null;
         EntityManager manager = null;

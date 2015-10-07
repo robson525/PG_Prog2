@@ -69,10 +69,10 @@ public class OcorrenciaBean extends BeanGeral {
             this.unidade = null;
             this.carregarTiposUsuairo();
 
-            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso", "Automovel salvo com Sucesso");
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso", "Ocorrência salva com Sucesso");
 
         } catch (Exception ex) {
-            msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Ocorreu um Erro ao Salvar");
+            msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Ocorreu um Erro ao Salvar a Ocorrência");
         }
 
         FacesContext.getCurrentInstance().addMessage(null, msg);
