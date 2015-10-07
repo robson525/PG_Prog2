@@ -1,0 +1,126 @@
+﻿.div-min-wave {
+    border-radius: 15px;
+    border: 1px solid #8903d4;
+    padding: 4px;
+    width: 160px;
+    height: 20px;
+    margin: 0 auto;
+    background-color: white;
+}
+
+div.player-div-body {
+    border-radius: 10px;
+    border: 2px solid #8903d4;
+    width: 290px;
+    height: 89px;
+    margin: 0 auto;
+    text-align:center;
+    margin-top:8px;
+}
+
+    div.player-div-body hr {
+        margin-bottom: 0px;
+        margin-top: 0px;
+    }
+
+div.player-div-wave {
+    width: 280px;
+    height: 35px;
+    margin: 0 auto;
+}
+
+.player-time-now {
+    float: left;
+    position: relative;
+    margin-left: 5px;
+    color: black;
+}
+
+.player-time-total {
+    float: right;
+    position: relative;
+    margin-right: 5px;
+    color: black;
+}
+
+.player-div-footer {
+    display: table;
+    table-layout: auto;
+    table-layout: fixed;
+    width: 100%;
+    table-layout: fixed;
+    height: 40px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.player-div-download {
+    display: table-cell;
+    margin-top: 0px;
+    width: 75px;
+    text-align: center;
+    margin-top:4px;
+}
+
+.player-div-comands {
+    margin-top: 0px;
+    display: table-cell;
+    width: 74px;
+    text-align: center;
+}
+
+.player-div-volume {
+    display: table-cell;
+    margin-top: 0px;
+    width: 141px;
+    text-align: center;
+}
+
+.player-image-wave {
+    opacity: 0.2;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    float: left;
+    position: absolute;
+}
+
+#PR .slider-selection {
+	background: #8903d4;
+    opacity:0.2;
+}
+#PR .slider-handle {
+	border-bottom-color: #8903d4;
+}
+#PR {
+	width: 270px;
+}
+.tooltip.tooltip-max.bottom, .tooltip.tooltip-min.top {
+    visibility: hidden;
+}
+.slider-horizontal {
+    width:400px !important;
+}
+           
+
+div.video-div-body-video {
+    border-radius: 10px;
+    border: 2px solid #8903d4;
+    width: 800px;
+    height: 400px;
+    margin: 0 auto;
+    text-align:center;
+    margin-top:8px;
+}
+
+div.video-div-body-comands {
+    border-radius: 10px;
+    border: 2px solid #8903d4;
+    width: 800px;
+    height: 35px;
+    margin: 0 auto;
+    text-align:center;
+    margin-top:5px;
+    padding-top:4px;
+}

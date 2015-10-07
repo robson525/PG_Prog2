@@ -1,0 +1,155 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Site.master.cs" Inherits="SiteMaster" %>
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+    <title><%: Page.Title %></title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/bootstrap-responsive.min.css" rel="stylesheet" />
+    <link href="css/bootstrap-table.css" rel="stylesheet" />
+    <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <link href="css/voxrecorder.css" rel="stylesheet" />
+
+    <script type="text/javascript" src="Scripts/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="Scripts/default-functions.js"></script>
+  
+    <script src="Scripts/bootstrap.js"></script>
+    <script src="Scripts/bootstrap-datetimepicker.min.js"></script>
+    <script src="Scripts/bootstrap-table.js"></script>
+
+
+</head>
+<body>
+
+    <script type="text/javascript">
+        $ = jQuery.noConflict();
+    </script>
+    <form runat="server" class="form-horizontal">
+        <div class="container">
+
+            <div class="masthead">
+                <h3 class="muted">
+                    <a href="/">
+                        <%--<img src="img/Logo_Pequeno.png" />--%>
+                    </a>
+                    SigWeb
+                </h3>
+
+                <div class="navbar">
+                    <div class="navbar-inner">
+                        <div class="container">
+                            <span class="title-btn-navbar" data-toggle="collapse" data-target=".navbar-responsive-collapse">Menu</span>
+                            <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </a>
+                            <div class="nav-collapse collapse navbar-responsive-collapse">
+                                <ul class="nav">
+                                    <li><a href="Default.aspx">Início</a></li>
+                                    <li><a href="Cadastrar">Cadastrar Ocorrência</a></li>
+                                    <%--<li><a href="UserLogOff">Tempo Real</a></li>--%>
+
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Configurações<b class="caret"></b></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="Tipo.aspx">Tipos de Ocorrência</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- /.nav-collapse -->
+                        </div>
+                    </div>
+                    <!-- /navbar-inner -->
+                </div>
+
+
+            </div>
+
+
+            <div class="container-fluid" id="alertas">
+
+                <div id="divAlertsErros" class="alert alert-error" style="display: none;">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <font style="font-weight: bold;">Erro</font>
+                    <ul id="ulAlertsErros"><%-- Adicionar as li's com alertas do bootstrap, usar função alertas(classTipo, msg) do default-functions.js --%></ul>
+                </div>
+                <div id="divAlertsSuccess" class="alert alert-success" style="display: none;">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <font style="font-weight: bold;">Sucesso</font>
+                    <ul id="ulAlertsSuccess"><%-- Adicionar as li's com alertas do bootstrap, usar função alertas(classTipo, msg) do default-functions.js --%></ul>
+                </div>
+                <div id="divAlertsInfo" class="alert alert-info" style="display: none;">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <font style="font-weight: bold;">Informações</font>
+                    <ul id="ulAlertsInfo"><%-- Adicionar as li's com alertas do bootstrap, usar função alertas(classTipo, msg) do default-functions.js --%></ul>
+                </div>
+                <div id="divAlertsBlock" class="alert alert-block" style="display: none;">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <font style="font-weight: bold;">Atenção</font>
+                    <ul id="ulAlertsBlock"><%-- Adicionar as li's com alertas do bootstrap, usar função alertas(classTipo, msg) do default-functions.js --%></ul>
+                </div>
+            </div>
+
+
+            <div class="container-fluid" id="confirm">
+                <% 
+                                                                                                          /*  
+                     *  Para Hablitar o Modal de confirmação chamar a função JavaScript OpenConfirm(tittle, body, parametros).
+                     *  Adicionar o campo  Master.btModalYes.Command += new CommandEventHandler(METODO); no Page_Load
+                     *  Adicionar string atributos = Master.CParametros.Text.ToString(); dentro do METODO
+                    */ 
+                %>
+                <div id="modalConfirm" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-header">
+                            <a href="#" class="close" data-dismiss="modal" aria-hidden="true">&times;</a>
+                         <h3 id="confirm-tittle"><% /* Titulo */ %></h3>
+                    </div>
+                    <div class="modal-body" id="confirm-budy">
+                        <% /* Corpo */ %>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn" type="button" data-dismiss="modal" aria-hidden="true"">Não</button>
+                        <asp:TextBox ID="ConfirmParametros" ClientIDMode="Static" CssClass="hide" runat="server"></asp:TextBox>
+                        <asp:LinkButton ID="ConfirmButtonYes" runat="server" CssClass="btn btn-primary" >Sim</asp:LinkButton>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="container-fluid" style="min-height: 500px;">
+
+                <asp:ContentPlaceHolder ID="MainContent" runat="server">
+                </asp:ContentPlaceHolder>
+
+            </div>
+
+            <footer>
+
+                <div class="pull-left">
+                    <p>&copy; <%: DateTime.Now.Year%> - Robson - Marina</p>
+                    <span class="back-to-top">
+                        <button class="btn" type="button" onclick="$('html,body').animate({scrollTop:0},'slow');return false;">
+                            <i class="icon-chevron-up"></i>&nbsp;Voltar ao Topo
+                        </button>
+                    </span>
+                </div>
+
+            </footer>
+
+        </div>
+
+
+    </form>
+</body>
+</html>

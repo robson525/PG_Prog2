@@ -1,0 +1,558 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SigosWebModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Estudante">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="matricula" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Funcionario">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="siape" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ocorrencia">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descricao" Type="text" Nullable="false" />
+          <Property Name="local" Type="varchar" MaxLength="200" />
+          <Property Name="papel" Type="int" Nullable="false" />
+          <Property Name="tipoOcorrencia" Type="int" Nullable="false" />
+          <Property Name="setor" Type="int" Nullable="false" />
+          <Property Name="usuario" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Outro">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="cpf" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Papel">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nome" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Setor">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nome" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="unidade" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TipoOcorrencia">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nome" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Unidade">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nome" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nome" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="telefone" Type="varchar" MaxLength="14" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Estudante_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Estudante" Type="Self.Estudante" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Estudante">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Funcionario_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Funcionario" Type="Self.Funcionario" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Funcionario">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ocorrencia_Papel">
+          <End Role="Papel" Type="Self.Papel" Multiplicity="1" />
+          <End Role="Ocorrencia" Type="Self.Ocorrencia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Papel">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Ocorrencia">
+              <PropertyRef Name="papel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ocorrencia_Setor">
+          <End Role="Setor" Type="Self.Setor" Multiplicity="1" />
+          <End Role="Ocorrencia" Type="Self.Ocorrencia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Setor">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Ocorrencia">
+              <PropertyRef Name="setor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ocorrencia_TipoOcorrencia">
+          <End Role="TipoOcorrencia" Type="Self.TipoOcorrencia" Multiplicity="1" />
+          <End Role="Ocorrencia" Type="Self.Ocorrencia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoOcorrencia">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Ocorrencia">
+              <PropertyRef Name="tipoOcorrencia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ocorrencia_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Ocorrencia" Type="Self.Ocorrencia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Ocorrencia">
+              <PropertyRef Name="usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Outro_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Outro" Type="Self.Outro" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Outro">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Setor_Unidade">
+          <End Role="Unidade" Type="Self.Unidade" Multiplicity="1" />
+          <End Role="Setor" Type="Self.Setor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Unidade">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Setor">
+              <PropertyRef Name="unidade" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SigosWebModelStoreContainer">
+          <EntitySet Name="Estudante" EntityType="Self.Estudante" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Funcionario" EntityType="Self.Funcionario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ocorrencia" EntityType="Self.Ocorrencia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Outro" EntityType="Self.Outro" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Papel" EntityType="Self.Papel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Setor" EntityType="Self.Setor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TipoOcorrencia" EntityType="Self.TipoOcorrencia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Unidade" EntityType="Self.Unidade" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Estudante_Usuario" Association="Self.FK_Estudante_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Estudante" EntitySet="Estudante" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Funcionario_Usuario" Association="Self.FK_Funcionario_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Funcionario" EntitySet="Funcionario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ocorrencia_Papel" Association="Self.FK_Ocorrencia_Papel">
+            <End Role="Papel" EntitySet="Papel" />
+            <End Role="Ocorrencia" EntitySet="Ocorrencia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ocorrencia_Setor" Association="Self.FK_Ocorrencia_Setor">
+            <End Role="Setor" EntitySet="Setor" />
+            <End Role="Ocorrencia" EntitySet="Ocorrencia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ocorrencia_TipoOcorrencia" Association="Self.FK_Ocorrencia_TipoOcorrencia">
+            <End Role="TipoOcorrencia" EntitySet="TipoOcorrencia" />
+            <End Role="Ocorrencia" EntitySet="Ocorrencia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ocorrencia_Usuario" Association="Self.FK_Ocorrencia_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Ocorrencia" EntitySet="Ocorrencia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Outro_Usuario" Association="Self.FK_Outro_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Outro" EntitySet="Outro" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Setor_Unidade" Association="Self.FK_Setor_Unidade">
+            <End Role="Unidade" EntitySet="Unidade" />
+            <End Role="Setor" EntitySet="Setor" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SigosWebModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Estudante">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="matricula" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_Estudante_Usuario" FromRole="Estudante" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Funcionario">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="siape" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_Funcionario_Usuario" FromRole="Funcionario" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Ocorrencia">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descricao" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="local" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="papel" Type="Int32" Nullable="false" />
+          <Property Name="tipoOcorrencia" Type="Int32" Nullable="false" />
+          <Property Name="setor" Type="Int32" Nullable="false" />
+          <Property Name="usuario" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Papel1" Relationship="Self.FK_Ocorrencia_Papel" FromRole="Ocorrencia" ToRole="Papel" />
+          <NavigationProperty Name="Setor1" Relationship="Self.FK_Ocorrencia_Setor" FromRole="Ocorrencia" ToRole="Setor" />
+          <NavigationProperty Name="TipoOcorrencia1" Relationship="Self.FK_Ocorrencia_TipoOcorrencia" FromRole="Ocorrencia" ToRole="TipoOcorrencia" />
+          <NavigationProperty Name="Usuario1" Relationship="Self.FK_Ocorrencia_Usuario" FromRole="Ocorrencia" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Outro">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="cpf" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_Outro_Usuario" FromRole="Outro" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Papel">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Ocorrencia" Relationship="Self.FK_Ocorrencia_Papel" FromRole="Papel" ToRole="Ocorrencia" />
+        </EntityType>
+        <EntityType Name="Setor">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nome" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="unidade" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Ocorrencia" Relationship="Self.FK_Ocorrencia_Setor" FromRole="Setor" ToRole="Ocorrencia" />
+          <NavigationProperty Name="Unidade1" Relationship="Self.FK_Setor_Unidade" FromRole="Setor" ToRole="Unidade" />
+        </EntityType>
+        <EntityType Name="TipoOcorrencia">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nome" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Ocorrencia" Relationship="Self.FK_Ocorrencia_TipoOcorrencia" FromRole="TipoOcorrencia" ToRole="Ocorrencia" />
+        </EntityType>
+        <EntityType Name="Unidade">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nome" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Setor" Relationship="Self.FK_Setor_Unidade" FromRole="Unidade" ToRole="Setor" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nome" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="telefone" Type="String" MaxLength="14" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Estudante" Relationship="Self.FK_Estudante_Usuario" FromRole="Usuario" ToRole="Estudante" />
+          <NavigationProperty Name="Funcionario" Relationship="Self.FK_Funcionario_Usuario" FromRole="Usuario" ToRole="Funcionario" />
+          <NavigationProperty Name="Ocorrencia" Relationship="Self.FK_Ocorrencia_Usuario" FromRole="Usuario" ToRole="Ocorrencia" />
+          <NavigationProperty Name="Outro" Relationship="Self.FK_Outro_Usuario" FromRole="Usuario" ToRole="Outro" />
+        </EntityType>
+        <Association Name="FK_Estudante_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Estudante" Type="Self.Estudante" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Estudante">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Funcionario_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Funcionario" Type="Self.Funcionario" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Funcionario">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ocorrencia_Papel">
+          <End Role="Papel" Type="Self.Papel" Multiplicity="1" />
+          <End Role="Ocorrencia" Type="Self.Ocorrencia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Papel">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Ocorrencia">
+              <PropertyRef Name="papel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ocorrencia_Setor">
+          <End Role="Setor" Type="Self.Setor" Multiplicity="1" />
+          <End Role="Ocorrencia" Type="Self.Ocorrencia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Setor">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Ocorrencia">
+              <PropertyRef Name="setor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ocorrencia_TipoOcorrencia">
+          <End Role="TipoOcorrencia" Type="Self.TipoOcorrencia" Multiplicity="1" />
+          <End Role="Ocorrencia" Type="Self.Ocorrencia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoOcorrencia">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Ocorrencia">
+              <PropertyRef Name="tipoOcorrencia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ocorrencia_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Ocorrencia" Type="Self.Ocorrencia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Ocorrencia">
+              <PropertyRef Name="usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Outro_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Outro" Type="Self.Outro" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Outro">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Setor_Unidade">
+          <End Role="Unidade" Type="Self.Unidade" Multiplicity="1" />
+          <End Role="Setor" Type="Self.Setor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Unidade">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Setor">
+              <PropertyRef Name="unidade" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SigosWebEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Estudante" EntityType="Self.Estudante" />
+          <EntitySet Name="Funcionario" EntityType="Self.Funcionario" />
+          <EntitySet Name="Ocorrencia" EntityType="Self.Ocorrencia" />
+          <EntitySet Name="Outro" EntityType="Self.Outro" />
+          <EntitySet Name="Papel" EntityType="Self.Papel" />
+          <EntitySet Name="Setor" EntityType="Self.Setor" />
+          <EntitySet Name="TipoOcorrencia" EntityType="Self.TipoOcorrencia" />
+          <EntitySet Name="Unidade" EntityType="Self.Unidade" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" />
+          <AssociationSet Name="FK_Estudante_Usuario" Association="Self.FK_Estudante_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Estudante" EntitySet="Estudante" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Funcionario_Usuario" Association="Self.FK_Funcionario_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Funcionario" EntitySet="Funcionario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ocorrencia_Papel" Association="Self.FK_Ocorrencia_Papel">
+            <End Role="Papel" EntitySet="Papel" />
+            <End Role="Ocorrencia" EntitySet="Ocorrencia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ocorrencia_Setor" Association="Self.FK_Ocorrencia_Setor">
+            <End Role="Setor" EntitySet="Setor" />
+            <End Role="Ocorrencia" EntitySet="Ocorrencia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ocorrencia_TipoOcorrencia" Association="Self.FK_Ocorrencia_TipoOcorrencia">
+            <End Role="TipoOcorrencia" EntitySet="TipoOcorrencia" />
+            <End Role="Ocorrencia" EntitySet="Ocorrencia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ocorrencia_Usuario" Association="Self.FK_Ocorrencia_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Ocorrencia" EntitySet="Ocorrencia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Outro_Usuario" Association="Self.FK_Outro_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Outro" EntitySet="Outro" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Setor_Unidade" Association="Self.FK_Setor_Unidade">
+            <End Role="Unidade" EntitySet="Unidade" />
+            <End Role="Setor" EntitySet="Setor" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SigosWebModelStoreContainer" CdmEntityContainer="SigosWebEntities">
+          <EntitySetMapping Name="Estudante">
+            <EntityTypeMapping TypeName="SigosWebModel.Estudante">
+              <MappingFragment StoreEntitySet="Estudante">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="matricula" ColumnName="matricula" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Funcionario">
+            <EntityTypeMapping TypeName="SigosWebModel.Funcionario">
+              <MappingFragment StoreEntitySet="Funcionario">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="siape" ColumnName="siape" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ocorrencia">
+            <EntityTypeMapping TypeName="SigosWebModel.Ocorrencia">
+              <MappingFragment StoreEntitySet="Ocorrencia">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="descricao" ColumnName="descricao" />
+                <ScalarProperty Name="local" ColumnName="local" />
+                <ScalarProperty Name="papel" ColumnName="papel" />
+                <ScalarProperty Name="tipoOcorrencia" ColumnName="tipoOcorrencia" />
+                <ScalarProperty Name="setor" ColumnName="setor" />
+                <ScalarProperty Name="usuario" ColumnName="usuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Outro">
+            <EntityTypeMapping TypeName="SigosWebModel.Outro">
+              <MappingFragment StoreEntitySet="Outro">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="cpf" ColumnName="cpf" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Papel">
+            <EntityTypeMapping TypeName="SigosWebModel.Papel">
+              <MappingFragment StoreEntitySet="Papel">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nome" ColumnName="nome" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Setor">
+            <EntityTypeMapping TypeName="SigosWebModel.Setor">
+              <MappingFragment StoreEntitySet="Setor">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nome" ColumnName="nome" />
+                <ScalarProperty Name="unidade" ColumnName="unidade" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoOcorrencia">
+            <EntityTypeMapping TypeName="SigosWebModel.TipoOcorrencia">
+              <MappingFragment StoreEntitySet="TipoOcorrencia">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nome" ColumnName="nome" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Unidade">
+            <EntityTypeMapping TypeName="SigosWebModel.Unidade">
+              <MappingFragment StoreEntitySet="Unidade">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nome" ColumnName="nome" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuario">
+            <EntityTypeMapping TypeName="SigosWebModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nome" ColumnName="nome" />
+                <ScalarProperty Name="telefone" ColumnName="telefone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
