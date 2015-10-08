@@ -12,6 +12,7 @@ public partial class Tipo : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        ((LinkButton)Master.FindControl("ConfirmButtonYes")).Command += new CommandEventHandler(Delete);
 
         if (!IsPostBack)
         {
@@ -22,8 +23,6 @@ public partial class Tipo : System.Web.UI.Page
 
     private void carregarTipos()
     {
-        
-
         var query = from tipos in entity.TipoOcorrencia select tipos;
 
         gridTipos.DataSource = query.ToList();
@@ -57,4 +56,36 @@ public partial class Tipo : System.Web.UI.Page
         this.carregarTipos();
 
     }
+
+
+    protected void Delete(object sender, CommandEventArgs e)
+    {
+
+        string atributos = ((TextBox)Master.FindControl("ConfirmParametros")).Text;
+        string[] variaveis = atributos.Split(',');
+        int id = Int32.Parse(variaveis[0]);
+
+        try
+        {
+
+            TipoOcorrencia tipoOcorrencia = (from tipo in entity.TipoOcorrencia where tipo.id == id select tipo).FirstOrDefault();
+            if (tipoOcorrencia != null)
+            {
+                this.entity.TipoOcorrencia.Remove(tipoOcorrencia);
+                this.entity.SaveChanges();
+
+                FuncoesGerais.EscreveMensagemAlertas(this, FuncoesGerais.TiposMensagem.success, "Tipo de Ocorrência Deletada com Sucesso");
+            }
+
+
+        }
+        catch (Exception ex)
+        {
+            FuncoesGerais.EscreveMensagemAlertas(this, FuncoesGerais.TiposMensagem.error, ex.Message);
+        }
+
+        this.carregarTipos();
+
+    }
+
 }
