@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -16,7 +17,7 @@ public partial class Tipo : System.Web.UI.Page
 
         if (!IsPostBack)
         {
-            this.carregarTipos();
+            this.carregarTiposSem();
         }
 
     }
@@ -27,6 +28,40 @@ public partial class Tipo : System.Web.UI.Page
 
         gridTipos.DataSource = query.ToList();
         gridTipos.DataBind();
+    }
+
+    private void carregarTiposSem()
+    {
+        string stringConexao = @"Data Source=ROBSON-NOTEBOOK\SQLEXPRESS; Initial Catalog=SigosWeb; integrated security=True;MultipleActiveResultSets=True;";
+        SqlConnection conexao = new SqlConnection(stringConexao);
+        SqlCommand comando = new SqlCommand("SELECT * FROM TipoOcorrencia", conexao);
+        try
+        {
+            conexao.Open();
+            comando.ExecuteNonQuery();
+            SqlDataReader leitor = comando.ExecuteReader();
+
+            List<TipoOcorrencia> lista = new List<TipoOcorrencia>();
+
+            while (leitor.Read())
+            {
+                TipoOcorrencia tipo = new TipoOcorrencia();
+                tipo.id = int.Parse(leitor["id"].ToString());
+                tipo.nome = leitor["nome"].ToString();
+                lista.Add(tipo); 
+            }
+
+            gridTipos.DataSource = lista;
+            gridTipos.DataBind();
+        }
+        catch (Exception ex)
+        {
+            FuncoesGerais.EscreveMensagemAlertas(this, FuncoesGerais.TiposMensagem.error, ex.Message);
+        }
+        finally
+        {
+            conexao.Close();
+        }
     }
 
 
@@ -60,7 +95,6 @@ public partial class Tipo : System.Web.UI.Page
 
     protected void Delete(object sender, CommandEventArgs e)
     {
-
         string atributos = ((TextBox)Master.FindControl("ConfirmParametros")).Text;
         string[] variaveis = atributos.Split(',');
         int id = Int32.Parse(variaveis[0]);
