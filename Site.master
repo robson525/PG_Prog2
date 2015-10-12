@@ -53,7 +53,7 @@
                             <div class="nav-collapse collapse navbar-responsive-collapse">
                                 <ul class="nav">
                                     <li><a href="Default.aspx">Início</a></li>
-                                    <li><a href="Cadastrar">Cadastrar Ocorrência</a></li>
+                                    <li><a href="Cadastrar.aspx">Cadastrar Ocorrência</a></li>
                                     <%--<li><a href="UserLogOff">Tempo Real</a></li>--%>
 
                                     <li class="dropdown">

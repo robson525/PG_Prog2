@@ -7,23 +7,30 @@ using System.Web.UI.WebControls;
 
 public partial class _Default : Page
 {
+
+    private SigosWebEntities entity = new SigosWebEntities();
+
     protected void Page_Load(object sender, EventArgs e)
     {
         if(!IsPostBack)
         {
-
+            this.carregaOcorrencias();
         }
 
-       
-
-        //if (FuncoesGerais.VerificaLogado(Session["Logged"]))
-        //{
-        //    Response.Redirect("Dashboard");
-        //}
-
     }
-    protected void btLogon_Click(object sender, EventArgs e)
+
+
+    private void carregaOcorrencias()
     {
-        
+        var ocorrencias = from ocorrencia in this.entity.Ocorrencia select new { 
+                                                                                Unidade = ocorrencia.Setor1.Unidade1.nome,
+                                                                                Setor = ocorrencia.Setor1.nome,
+                                                                                Local = ocorrencia.local,
+                                                                                Tipo = ocorrencia.TipoOcorrencia1.nome,
+                                                                                Usuairo = ocorrencia.Usuario1.nome
+                                                                            };
+
+        gridOcorrencias.DataSource = ocorrencias.ToList();
+        gridOcorrencias.DataBind();
     }
 }

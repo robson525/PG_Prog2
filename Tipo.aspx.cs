@@ -64,9 +64,11 @@ public partial class Tipo : System.Web.UI.Page
         }
     }
 
-
     protected void btSave_Click(object sender, EventArgs e)
     {
+        this.Salvar_Sem();
+        return;
+
         TipoOcorrencia tipo = new TipoOcorrencia();
         tipo.nome = txtNome.Text;
 
@@ -90,6 +92,44 @@ public partial class Tipo : System.Web.UI.Page
 
         this.carregarTipos();
 
+    }
+
+    protected void Salvar_Sem()
+    {
+        int id = 0;
+        int.TryParse(tipoID.Text, out id);
+
+        string stringConexao = @"Data Source=ROBSON-NOTEBOOK\SQLEXPRESS; Initial Catalog=SigosWeb; integrated security=True;MultipleActiveResultSets=True;";
+        SqlConnection conexao = new SqlConnection(stringConexao);
+
+        SqlCommand comando;
+        if (id > 0)
+        {
+            comando = new SqlCommand("UPDATE TipoOcorrencia SET nome = @nome WHERE id = @id;", conexao);
+            comando.Parameters.Add("@nome", txtNome.Text);
+            comando.Parameters.Add("@id", tipoID.Text);
+        }
+        else
+        {
+            comando = new SqlCommand("INSERT INTO TipoOcorrencia (nome) VALUES (@nome);", conexao);
+            comando.Parameters.Add("@nome", txtNome.Text);
+        }
+
+        try
+        {
+            conexao.Open();
+            comando.ExecuteNonQuery();
+            FuncoesGerais.EscreveMensagemAlertas(this, FuncoesGerais.TiposMensagem.success, "Tipo de Ocorrência salva com sucesso");
+        }
+        catch (Exception ex)
+        {
+            FuncoesGerais.EscreveMensagemAlertas(this, FuncoesGerais.TiposMensagem.error, ex.Message);
+        }
+        finally
+        {
+            conexao.Close();
+        }
+        this.carregarTipos();
     }
 
 
