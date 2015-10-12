@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -14,7 +15,7 @@ public partial class _Default : Page
     {
         if(!IsPostBack)
         {
-            this.carregaOcorrencias();
+            this.carregaOcorrencias_Sem();
         }
 
     }
@@ -32,5 +33,53 @@ public partial class _Default : Page
 
         gridOcorrencias.DataSource = ocorrencias.ToList();
         gridOcorrencias.DataBind();
+    }
+
+
+    private void carregaOcorrencias_Sem()
+    {
+        string stringConexao = @"Data Source=ROBSON-NOTEBOOK\SQLEXPRESS; Initial Catalog=SigosWeb; integrated security=True;MultipleActiveResultSets=True;";
+        SqlConnection conexao = new SqlConnection(stringConexao);
+        String sql = "SELECT o.descricao, o.local, p.nome as papel, t.nome as tipoOcorrencia, s.nome as setor, u.nome as unidade, us.nome as usuario " + 
+                        "FROM Ocorrencia o " +
+                        "JOIN Papel p ON p.id = o.papel " +
+                        "JOIN TipoOcorrencia t ON t.id = o.tipoOcorrencia " +
+                        "JOIN Setor s ON s.id = o.setor " +
+                        "JOIN Unidade u ON u.id = s.unidade " +
+                        "JOIN Usuario us ON us.id = o.usuario ";
+
+        SqlCommand comando = new SqlCommand(sql, conexao);
+        try
+        {
+            conexao.Open();
+            SqlDataReader leitor = comando.ExecuteReader();
+
+            List<Object> lista = new List<Object>();
+
+            while (leitor.Read())
+            {
+                var aux = new {
+                    Unidade = leitor["unidade"].ToString(),
+                    Setor = leitor["setor"].ToString(),
+                    Local = leitor["local"].ToString(),
+                    Tipo = leitor["tipoOcorrencia"].ToString(),
+                    Usuairo = leitor["usuario"].ToString(),
+                };
+
+                lista.Add(aux);
+            }
+
+            gridOcorrencias.DataSource = lista;
+            gridOcorrencias.DataBind();
+        }
+        catch (Exception ex)
+        {
+            FuncoesGerais.EscreveMensagemAlertas(this, FuncoesGerais.TiposMensagem.error, ex.Message);
+        }
+        finally
+        {
+            conexao.Close();
+        }
+
     }
 }
